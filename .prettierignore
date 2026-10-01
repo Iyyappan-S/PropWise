@@ -1,26 +1,21 @@
-
 node_modules/
 .pnpm-store/
-
 
 dist/
 build/
 *.dist
 
-# Generated files
 *.tsbuildinfo
 coverage/
 
-# Package files
+
 package-lock.json
 pnpm-lock.yaml
 
-# Database
 *.db
 *.sqlite
 *.sqlite3
 
-# Logs
 *.log
 
 # Environment files
