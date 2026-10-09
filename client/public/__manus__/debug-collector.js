@@ -155,7 +155,6 @@
     var type = tag === "input" ? (getAttr("type") || "text") : null;
     var href = tag === "a" ? getAttr("href") || null : null;
 
-    // a small, stable hint for agents (avoid building full CSS paths)
     var selectorHint = null;
     if (testId) selectorHint = '[data-testid="' + testId + '"]';
     else if (dataLoc) selectorHint = '[data-loc="' + dataLoc + '"]';
@@ -224,7 +223,6 @@
   }
 
   function installUiEventListeners() {
-    // Clicks
     document.addEventListener(
       "click",
       function (e) {
@@ -275,7 +273,6 @@
       true
     );
 
-    // Enter/Escape are useful for form flows & modals
     document.addEventListener(
       "keydown",
       function (e) {
@@ -287,7 +284,6 @@
       true
     );
 
-    // Form submissions
     document.addEventListener(
       "submit",
       function (e) {
@@ -298,7 +294,6 @@
       true
     );
 
-    // Throttled scroll events
     window.addEventListener(
       "scroll",
       function () {
@@ -316,7 +311,6 @@
       { passive: true }
     );
 
-    // Navigation tracking for SPAs
     function nav(reason) {
       logUiEvent("navigate", { reason: reason });
     }
