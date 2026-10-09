@@ -239,7 +239,6 @@
       true
     );
 
-    // Typing "commit" events
     document.addEventListener(
       "change",
       function (e) {
