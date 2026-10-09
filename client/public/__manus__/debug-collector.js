@@ -37,10 +37,6 @@
     lastScrollTime: 0,
   };
 
-  // ==========================================================================
-  // Utility Functions
-  // ==========================================================================
-
   function sanitizeValue(value, depth) {
     if (depth === void 0) depth = 0;
     if (depth > 5) return "[Max Depth]";
