@@ -8,7 +8,7 @@
     bufferSize: {
       console: 500,
       network: 200,
-      // semantic, agent-friendly UI events
+    
       ui: 500,
     },
     reportInterval: 2000,
