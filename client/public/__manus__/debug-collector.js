@@ -25,7 +25,7 @@
   
     uiInputMaxLen: 200,
     uiTextMaxLen: 80,
-    // Scroll throttling: minimum ms between scroll events
+
     scrollThrottleMs: 500,
   };
 
