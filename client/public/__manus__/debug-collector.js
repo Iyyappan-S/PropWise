@@ -1,14 +1,3 @@
-/**
- * Manus Debug Collector (agent-friendly)
- *
- * Captures:
- * 1) Console logs
- * 2) Network requests (fetch + XHR)
- * 3) User interactions (semantic uiEvents: click/type/submit/nav/scroll/etc.)
- *
- * Data is periodically sent to /__manus__/logs
- * Note: uiEvents are mirrored to sessionEvents for sessionReplay.log
- */
 (function () {
   "use strict";
 
