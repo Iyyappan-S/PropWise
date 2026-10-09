@@ -84,7 +84,7 @@ function DashboardLayout({ children }) {
           nav
         ] })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "mx-auto max-w-[1500px] p-4 sm:p-6 lg:p-10", children })
+       jsx("div", { className: "mx-auto max-w-[1500px] p-4 sm:p-6 lg:p-10", children })
     ] })
   ] });
 }
