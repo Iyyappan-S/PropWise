@@ -22,9 +22,7 @@
       "session",
     ],
     maxBodyLength: 10240,
-    // UI event logging privacy policy:
-    // - inputs matching sensitiveFields or type=password are masked by default
-    // - non-sensitive inputs log up to 200 chars
+  
     uiInputMaxLen: 200,
     uiTextMaxLen: 80,
     // Scroll throttling: minimum ms between scroll events
