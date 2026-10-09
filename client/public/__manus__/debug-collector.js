@@ -335,10 +335,6 @@
     });
   }
 
-  // ==========================================================================
-  // Console Interception
-  // ==========================================================================
-
   var originalConsole = {
     log: console.log.bind(console),
     debug: console.debug.bind(console),
@@ -383,7 +379,6 @@
     });
     pruneBuffer(store.consoleLogs, CONFIG.bufferSize.console);
 
-    // Mark an error moment in UI event stream for agents
     logUiEvent("error", {
       message: event.message,
       filename: event.filename,
@@ -413,27 +408,21 @@
     });
   });
 
-  // ==========================================================================
-  // Fetch Interception
-  // ==========================================================================
 
   var originalFetch = window.fetch.bind(window);
 
   window.fetch = function (input, init) {
     init = init || {};
     var startTime = Date.now();
-    // Handle string, Request object, or URL object
     var url = typeof input === "string"
       ? input
       : (input && (input.url || input.href || String(input))) || "";
     var method = init.method || (input && input.method) || "GET";
 
-    // Don't intercept internal requests
     if (url.indexOf("/__manus__/") === 0) {
       return originalFetch(input, init);
     }
 
-    // Safely parse headers (avoid breaking if headers format is invalid)
     var requestHeaders = {};
     try {
       if (init.headers) {
@@ -471,7 +460,6 @@
           body: null,
         };
 
-        // Semantic network hint for agents on failures (sync, no need to wait for body)
         if (response.status >= 400) {
           logUiEvent("network_error", {
             kind: "fetch",
@@ -482,7 +470,6 @@
           });
         }
 
-        // Skip body capture for streaming responses (SSE, etc.) to avoid memory leaks
         var isStreaming = contentType.indexOf("text/event-stream") !== -1 ||
                           contentType.indexOf("application/stream") !== -1 ||
                           contentType.indexOf("application/x-ndjson") !== -1;
@@ -493,7 +480,6 @@
           return response;
         }
 
-        // Skip body capture for large responses to avoid memory issues
         if (contentLength && parseInt(contentLength, 10) > CONFIG.maxBodyLength) {
           entry.response.body = "[Response too large: " + contentLength + " bytes]";
           store.networkRequests.push(entry);
@@ -501,7 +487,6 @@
           return response;
         }
 
-        // Skip body capture for binary content types
         var isBinary = contentType.indexOf("image/") !== -1 ||
                        contentType.indexOf("video/") !== -1 ||
                        contentType.indexOf("audio/") !== -1 ||
