@@ -500,10 +500,8 @@
           return response;
         }
 
-        // For text responses, clone and read body in background
         var clonedResponse = response.clone();
 
-        // Async: read body in background, don't block the response
         clonedResponse
           .text()
           .then(function (text) {
@@ -521,7 +519,6 @@
             pruneBuffer(store.networkRequests, CONFIG.bufferSize.network);
           });
 
-        // Return response immediately, don't wait for body reading
         return response;
       })
       .catch(function (error) {
@@ -541,10 +538,6 @@
         throw error;
       });
   };
-
-  // ==========================================================================
-  // XHR Interception
-  // ==========================================================================
 
   var originalXHROpen = XMLHttpRequest.prototype.open;
   var originalXHRSend = XMLHttpRequest.prototype.send;
@@ -573,12 +566,10 @@
         var contentType = (xhr.getResponseHeader("content-type") || "").toLowerCase();
         var responseBody = null;
 
-        // Skip body capture for streaming responses
         var isStreaming = contentType.indexOf("text/event-stream") !== -1 ||
                           contentType.indexOf("application/stream") !== -1 ||
                           contentType.indexOf("application/x-ndjson") !== -1;
 
-        // Skip body capture for binary content types
         var isBinary = contentType.indexOf("image/") !== -1 ||
                        contentType.indexOf("video/") !== -1 ||
                        contentType.indexOf("audio/") !== -1 ||
@@ -591,7 +582,6 @@
         } else if (isBinary) {
           responseBody = "[Binary content: " + contentType + "]";
         } else {
-          // Safe to read responseText for text responses
           try {
             var text = xhr.responseText || "";
             if (text.length > CONFIG.maxBodyLength) {
@@ -600,7 +590,6 @@
               responseBody = sanitizeValue(tryParseJson(text));
             }
           } catch (e) {
-            // responseText may throw for non-text responses
             responseBody = "[Unable to read response: " + e.message + "]";
           }
         }
@@ -661,16 +650,12 @@
     return originalXHRSend.apply(this, arguments);
   };
 
-  // ==========================================================================
-  // Data Reporting
-  // ==========================================================================
 
   function reportLogs() {
     var consoleLogs = store.consoleLogs.splice(0);
     var networkRequests = store.networkRequests.splice(0);
     var uiEvents = store.uiEvents.splice(0);
 
-    // Skip if no new data
     if (
       consoleLogs.length === 0 &&
       networkRequests.length === 0 &&
